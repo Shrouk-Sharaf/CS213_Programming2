@@ -11,7 +11,7 @@ int main() {
             {"his", "his or her"},
             {"His", "His or her"}
     };
-    cout << "Enter a sentence\n";
+    cout << "Enter your sentence\n";
     getline(cin, sentence);
     for (const auto& replacement : replacements) {
         regex word("\\b" + replacement.first + "\\b");
