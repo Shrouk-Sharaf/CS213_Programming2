@@ -29,10 +29,10 @@ int main() {
         else if (choice == 1) {
             char innerChoice;
             do {
-                cout << "Enter the player's name: ";
+                cout << "Enter the player's name\n";
                 cin.ignore();
                 getline(cin, name);
-                cout << "Enter their score: ";
+                cout << "Enter their score\n";
                 cin >> score;
                 Player newPlayer = {name, score};
                 Players.push_back(newPlayer);
@@ -43,12 +43,17 @@ int main() {
 
                 if (Players.size() > 10) Players.pop_back();
 
-                cout << "Do you want to add another score? (y/n): ";
-                cin >> innerChoice;
-                if(innerChoice == 'n' || innerChoice == 'N')  break;
+                while (true) {
+                    cout << "Do you want to add another score? (y/n)\n";
+                    cin >> innerChoice;
 
-            }
-            while (innerChoice == 'y' || innerChoice == 'Y');
+                    if (innerChoice == 'y' || innerChoice == 'Y' || innerChoice == 'n' || innerChoice == 'N') break;
+                    else cout << "Invalid input. Please choose either y or n." << endl;
+                }
+
+                if (innerChoice == 'n' || innerChoice == 'N') break;
+
+            } while (innerChoice == 'y' || innerChoice == 'Y');
         }
         else if (choice == 2) {
             sort(Players.begin(), Players.end(), [](Player a, Player b) {
@@ -60,7 +65,7 @@ int main() {
             }
         }
         else if (choice == 3) {
-            cout << "Enter the player's name: ";
+            cout << "Enter the player's name\n";
             cin.ignore();
             getline(cin, name);
 
