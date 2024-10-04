@@ -2,7 +2,6 @@
 #include <vector>
 #include <regex>
 using namespace std;
-
 int main() {
     string sentence, line;
     vector<pair<string, string>> replacements = {
