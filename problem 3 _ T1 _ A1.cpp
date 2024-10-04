@@ -1,52 +1,26 @@
 #include <iostream>
-#include <cmath>
 using namespace std;
+void pattern(int n, int spaces) {
+    if (n == 1) {
+        cout << string(spaces, ' ') << "*" << endl;
+        return;
+    }
+    pattern(n / 2, spaces);
+    cout << string(spaces, ' ');
+    for (int i = 0; i < n; ++i) cout << "* ";
+    cout << endl;
+    pattern(n / 2, spaces + n);
+}
+
 int main() {
-    int n;
-    cin >> n;
-    int k = 0;
-    int m = 2;
-    bool ok = true;
-    for(int i = 0; i < n; ++i) {
-        if (i % 2 == 0) {
-            for (int j = 0; j < k; ++j) cout << ' ';
-            cout << '*' << ' ';
-            cout << endl;
-        }
-        else {
-            if (ok) {
-                for (int j = 0; j < k; ++j) cout << ' ';
-                for (int j = 0; j < 2; ++j) cout << '*' << ' ';
-            }
-            else {
-                for (int v = 0; v < pow(2, m); ++v) cout << '*' << ' ';
-                ++m;
-            }
-            cout << endl;
-            ok = !ok;
-            k += 2;
-        }
+    int n, initialSpaces;
+    while (true){
+        cout << "Enter the size of the pattern (must be a power of 2):\n";
+        cin >> n;
+        if (n <= 0 || (n & (n - 1)) != 0) cout << "Error: The size of the pattern must be a positive power of 2.\n\n";
+        else break;
     }
-    m = 2;
-    for(int i = 0; i < n - 1; ++i) {
-        if (i % 2 == 0) {
-            for (int j = 0; j < k; ++j) cout << ' ';
-            cout << '*' << ' ';
-            cout << endl;
-        }
-        else {
-            if (ok) {
-                for (int j = 0; j < k; ++j) cout << ' ';
-                for (int j = 0; j < 2; ++j) cout << '*' << ' ';
-            }
-            else {
-                for (int v = 0; v < 2 * pow(2, m); ++v) cout << ' ';
-                for (int v = 0; v < pow(2, m); ++v) cout << '*' << ' ';
-                ++m;
-            }
-            cout << endl;
-            ok = !ok;
-            k += 2;
-        }
-    }
+    cout << "Enter the initial number of spaces:\n";
+    cin >> initialSpaces;
+    pattern(n, initialSpaces);
 }
