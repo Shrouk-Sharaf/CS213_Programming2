@@ -1,15 +1,15 @@
 #include <iostream>
 using namespace std;
-void pattern(int n, int spaces) {
+void pattern(int n, int i) {
     if (n == 1) {
-        cout << string(spaces, ' ') << "*" << endl;
+        cout << string(i, ' ') << "*" << endl;
         return;
     }
-    pattern(n / 2, spaces);
-    cout << string(spaces, ' ');
-    for (int i = 0; i < n; ++i) cout << "* ";
+    pattern(n / 2, i);
+    cout << string(i, ' ');
+    for (int x = 0; x < n; ++x) cout << "* ";
     cout << endl;
-    pattern(n / 2, spaces + n);
+    pattern(n / 2, i + n);
 }
 
 int main() {
