@@ -2,6 +2,7 @@
 #include <vector>
 #include <regex>
 using namespace std;
+
 int main() {
     string sentence, line;
     vector<pair<string, string>> replacements = {
@@ -26,6 +27,5 @@ int main() {
         sentence = regex_replace(sentence, word, replacement.second);
     }
 
-    // Output the final result
     cout << sentence << endl;
 }
