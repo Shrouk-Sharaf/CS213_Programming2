@@ -1,4 +1,5 @@
 #include <iostream>
+#include <cmath>
 using namespace std;
 void pattern(int n, int i) {
     if (n == 1) {
@@ -17,7 +18,7 @@ int main() {
     while (true){
         cout << "Enter the size of the pattern (must be a power of 2):\n";
         cin >> n;
-        if (n <= 0 || (n & (n - 1)) != 0) cout << "Error: The size of the pattern must be a positive power of 2.\n\n";
+        if (n <= 0 || floor(log2(n)) != ceil(log2(n))) cout << "Error: The size of the pattern must be a positive power of 2.\n\n";
         else break;
     }
     cout << "Enter the initial number of spaces:\n";
