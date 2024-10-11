@@ -2,6 +2,7 @@
 #include <fstream>
 #include <vector>
 using namespace std;
+
 void getFileName(string &fileName) {
     while (true) {
         cout << "Enter file name:\n";
