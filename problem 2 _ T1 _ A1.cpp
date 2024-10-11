@@ -22,6 +22,7 @@ int main() {
             cin.clear();
             while (cin.get() != '\n');
         }
+
         else if (choice == 4) {
             cout << "Exiting the program...." << endl;
             break;
