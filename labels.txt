@@ -1,0 +1,5 @@
+Sign vs Cosine Functions.
+Sigmoid Function.
+The Beauty of Fractals.
+Understanding Neural Networks.
+Quantum Computing: A New Frontier.

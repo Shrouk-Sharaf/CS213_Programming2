@@ -54,17 +54,22 @@ public:
 int main() {
     // Variables for user-defined label prefix and starting index
     string UserPrfx;
-    int Start_idx;
+    int Start_idx, Stop_idx;
 
     cout << "Enter the label prefix:\n";
     cin >> UserPrfx;
-    cout << "Do you want to start the default index (1)?  (Y/N)";
+    cout << "Do you want to start with the default index (1)? (Y/N)\n";
     char choose;
     cin >> choose;
-    if (choose == 'Y' || choose == 'y') Start_idx = 1;
+    if (choose == 'Y' || choose == 'y'){
+        Start_idx = 1;
+        Stop_idx = 3; // Default stopping index
+    }
     else {
         cout << "Enter the starting index:\n";
         cin >> Start_idx;
+        cout << "Enter the stopping index:\n";
+        cin >> Stop_idx;
     }
 
     UserPrfx += " ";  // Appending a space after the prefix for better formatting
@@ -72,12 +77,13 @@ int main() {
     // Instantiate a LabelGenerator using the user-defined prefix and starting index
     LabelGenerator userLabels(UserPrfx, Start_idx);
 
-    // Generate and display 3 sequential labels based on user input
+    // Generate and display number of sequential labels based on user input
     cout << "Generated labels: ";
-    for (int i = 0; i < 3; i++) {
+    for (int i = Start_idx; i <= Stop_idx; i++) { // Loop to include Stop_idx
         cout << userLabels.nextLabel();
-        if (i < 2) cout << ", "; // Prevents a trailing comma after the last label
+        if (i < Stop_idx) cout << ", "; // Prevents a trailing comma
     }
+
     cout << endl;
 
     // Create a FileLabelGenerator with user-defined prefix, starting index, and filename
