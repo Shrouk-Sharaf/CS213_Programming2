@@ -1,4 +1,5 @@
 #include <iostream>
+#include <string>
 using namespace std;
 
 template <class T>
@@ -8,9 +9,9 @@ private:
     int size;        // Current number of elements in the set
     int capacity;    // Maximum capacity of the array
 
-    void resize(){
+    void resize() {
         T* temp = new T[capacity * 2];
-        for (int i = 0; i < size; i++){
+        for (int i = 0; i < size; i++) {
             temp[i] = items[i];
         }
         delete[] items;
@@ -19,27 +20,29 @@ private:
     }
 
 public:
-    Set(){
+    Set() {
         items = new T[10];
         size = 0;
         capacity = 10;
     }
-    ~Set(){
+
+    ~Set() {
         delete[] items;
     }
-    void add(const T& item){
-        if (!contains(item)){
-            if (size == capacity){
+
+    void add(const T& item) {
+        if (!contains(item)) {
+            if (size == capacity) {
                 resize();
             }
-            items[size] = item;
-            size++;
+            items[size++] = item;
         }
     }
-    void remove(const T& item){
-        for (int i = 0; i < size; i++){
-            if (items[i] == item){
-                for (int j = i; j < size - 1; j++){
+
+    void remove(const T& item) {
+        for (int i = 0; i < size; i++) {
+            if (items[i] == item) {
+                for (int j = i; j < size - 1; j++) {
                     items[j] = items[j + 1];
                 }
                 size--;
@@ -47,62 +50,144 @@ public:
             }
         }
     }
-    int count() const{
+
+    int count() const {
         return size;
     }
-    bool contains(const T& item) const{
-        for (int i = 0; i < size; i++){
-            if (items[i] == item){
+
+    bool contains(const T& item) const {
+        for (int i = 0; i < size; i++) {
+            if (items[i] == item) {
                 return true;
             }
         }
         return false;
     }
-    T* toArray() const{
-        if (size == 0){
+
+    T* toArray() const {
+        if (size == 0) {
             return nullptr;
         }
         T* result = new T[size];
-        for (int i = 0; i < size; i++){
+        for (int i = 0; i < size; i++) {
             result[i] = items[i];
         }
         return result;
     }
 };
 
-int main() {
-    Set<int> intSet;
+// Function to display the menu
+void displayMenu() {
+    cout << "\n--- Set Operations Menu ---\n";
+    cout << "1. Add an item\n";
+    cout << "2. Remove an item\n";
+    cout << "3. Check if an item exists\n";
+    cout << "4. Display all items\n";
+    cout << "5. Display the count of items\n";
+    cout << "6. Exit\n";
+    cout << "Choose an option:\n";
+}
 
-    intSet.add(1);
-    intSet.add(2);
-    intSet.add(2); // Duplicate, should not be added
-    intSet.add(3);
-
-    cout << "Set contains 2? " << (intSet.contains(2) ? "Yes" : "No") << endl;
-
-    intSet.remove(2);
-    cout << "Set contains 2 after removal? " << (intSet.contains(2) ? "Yes" : "No") << endl;
-
-    cout << "Set contains 3? " << (intSet.contains(3) ? "Yes" : "No") << endl;
-    intSet.remove(3);
-    cout << "Set contains 3 after removal? " << (intSet.contains(3) ? "Yes" : "No") << endl;
-
-    intSet.add(4);
-    intSet.add(8);
-    intSet.add(4);
-    intSet.add(6);
-
-    int* items = intSet.toArray();
-    if (items != nullptr) {
-        cout << "Items in the set after adding and removing operations:\n";
-        for (int i = 0; i < intSet.count(); ++i) {
-            cout << items[i] << " ";
+template <typename T>
+void handleSet() {
+    Set<T> set;
+    while (true) {
+        displayMenu();
+        int choice;
+        cin >> choice;
+        if (cin.fail()) {
+            cout << "Invalid input! Please enter a number between 1 and 6.\n";
+            cin.clear();
+            while (cin.get() != '\n');
+            continue;
         }
-        cout << endl;
-        delete[] items;
-    } else {
-        cout << "Set is empty." << endl;
-    }
 
-    return 0;
+        if (choice == 1) {
+            T item;
+            cout << "Enter the item to add:\n";
+            cin >> item;
+            set.add(item);
+            cout << "Item added successfully.\n";
+
+        }
+        else if (choice == 2) {
+            T item;
+            cout << "Enter the item to remove:\n";
+            cin >> item;
+            set.remove(item);
+            cout << "Item removed if it existed in the set.\n";
+
+        }
+        else if (choice == 3) {
+            T item;
+            cout << "Enter the item to check:\n";
+            cin >> item;
+            if (set.contains(item)) {
+                cout << "Item exists in the set.\n";
+            }
+            else {
+                cout << "Item does not exist in the set.\n";
+            }
+
+        }
+        else if (choice == 4) {
+            T* items = set.toArray();
+            if (items != nullptr) {
+                cout << "Items in the set:\n";
+                for (int i = 0; i < set.count(); ++i) {
+                    cout << items[i] << " ";
+                }
+                cout << endl;
+                delete[] items;
+            }
+            else {
+                cout << "The set is currently empty.\n";
+            }
+
+        }
+        else if (choice == 5) {
+            cout << "Number of items in the set: " << set.count() << endl;
+        }
+        else if (choice == 6) {
+            cout << "Exiting to main menu!\n";
+            break;
+        }
+    }
+}
+
+int main() {
+    while (true) {
+        cout << "\n--- Select Data Type ---\n";
+        cout << "1. Integer\n";
+        cout << "2. Float\n";
+        cout << "3. String\n";
+        cout << "4. Exit\n";
+        cout << "Choose a data type:\n";
+        int dataTypeChoice;
+        cin >> dataTypeChoice;
+
+        if (cin.fail()) {
+            cout << "Invalid input! Please enter a number between 1 and 4.\n";
+            cin.clear();
+            while (cin.get() != '\n');
+            continue;
+        }
+
+        if (dataTypeChoice == 1) {
+            cout << "You selected Integer Set.\n";
+            handleSet<int>();
+        }
+        else if (dataTypeChoice == 2) {
+            cout << "You selected Float Set.\n";
+            handleSet<float>();
+        }
+        else if (dataTypeChoice == 3) {
+            cout << "You selected String Set.\n";
+            handleSet<string>();
+        }
+        else if (dataTypeChoice == 4) {
+            cout << "Exiting the program!\n";
+            break;
+        }
+    }
 }
