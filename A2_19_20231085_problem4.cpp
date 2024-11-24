@@ -64,6 +64,16 @@ public:
         return false;
     }
 
+    void sort(){
+        for (int i = 0; i < size - 1; i++) {
+            for (int j = 0; j < size - i - 1; j++) {
+                if (items[j] > items[j + 1]) {
+                    swap(items[j], items[j + 1]);
+                }
+            }
+        }
+    }
+
     T* toArray() const {
         if (size == 0) {
             return nullptr;
@@ -76,7 +86,6 @@ public:
     }
 };
 
-// Function to display the menu
 void displayMenu() {
     cout << "\n--- Set Operations Menu ---\n";
     cout << "1. Add an item\n";
@@ -84,7 +93,8 @@ void displayMenu() {
     cout << "3. Check if an item exists\n";
     cout << "4. Display all items\n";
     cout << "5. Display the count of items\n";
-    cout << "6. Exit\n";
+    cout << "6. Sort the items\n";
+    cout << "7. Exit\n";
     cout << "Choose an option:\n";
 }
 
@@ -96,7 +106,7 @@ void handleSet() {
         int choice;
         cin >> choice;
         if (cin.fail()) {
-            cout << "Invalid input! Please enter a number between 1 and 6.\n";
+            cout << "Invalid input! Please enter a number between 1 and 7.\n";
             cin.clear();
             while (cin.get() != '\n');
             continue;
@@ -149,6 +159,21 @@ void handleSet() {
             cout << "Number of items in the set: " << set.count() << endl;
         }
         else if (choice == 6) {
+            set.sort();
+            cout << "Items in the set after sorting:\n";
+            T* items = set.toArray();
+            if (items!= nullptr) {
+                for (int i = 0; i < set.count(); ++i) {
+                    cout << items[i] << " ";
+                }
+                cout << endl;
+                delete[] items;
+            }
+            else {
+                cout << "The set is currently empty.\n";
+            }
+        }
+        else if (choice == 7) {
             cout << "Exiting to main menu!\n";
             break;
         }
