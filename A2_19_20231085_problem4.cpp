@@ -64,13 +64,27 @@ public:
         return false;
     }
 
-    void sort(){
-        for (int i = 0; i < size - 1; i++) {
-            for (int j = 0; j < size - i - 1; j++) {
-                if (items[j] > items[j + 1]) {
-                    swap(items[j], items[j + 1]);
+    void quickSort(T* arr, int low, int high) {
+        if (low < high) {
+            T pivot = arr[high];
+            int i = low - 1;
+            for (int j = low; j < high; j++) {
+                if (arr[j] < pivot) {
+                    i++;
+                    swap(arr[i], arr[j]);
                 }
             }
+            swap(arr[i + 1], arr[high]);
+            int pivotIndex = i + 1;
+
+            quickSort(arr, low, pivotIndex - 1);
+            quickSort(arr, pivotIndex + 1, high);
+        }
+    }
+
+    void sort() {
+        if (size > 1) {
+            quickSort(items, 0, size - 1);
         }
     }
 
