@@ -82,151 +82,109 @@ public:
         }
     }
 
-    void sort() {
-        if (size > 1) {
-            quickSort(items, 0, size - 1);
-        }
-    }
-
-    T* toArray() const {
+    T* toArray() {
         if (size == 0) {
             return nullptr;
         }
-        T* result = new T[size];
+        T* sortedItems = new T[size];
         for (int i = 0; i < size; i++) {
-            result[i] = items[i];
+            sortedItems[i] = items[i];
         }
-        return result;
+        quickSort(sortedItems, 0, size - 1);
+        return sortedItems;
     }
 };
 
-void displayMenu() {
-    cout << "\n--- Set Operations Menu ---\n";
-    cout << "1. Add an item\n";
-    cout << "2. Remove an item\n";
-    cout << "3. Check if an item exists\n";
-    cout << "4. Display all items\n";
-    cout << "5. Display the count of items\n";
-    cout << "6. Sort the items\n";
-    cout << "7. Exit\n";
-    cout << "Choose an option:\n";
-}
+class CustomClass {
+private:
+    int Value;
+public:
+    CustomClass() : Value(0) {} // Default constructor
+    CustomClass(int value) : Value(value) {}
 
-template <typename T>
-void handleSet() {
-    Set<T> set;
-    while (true) {
-        displayMenu();
-        int choice;
-        cin >> choice;
-        if (cin.fail()) {
-            cout << "Invalid input! Please enter a number between 1 and 7.\n";
-            cin.clear();
-            while (cin.get() != '\n');
-            continue;
-        }
-
-        if (choice == 1) {
-            T item;
-            cout << "Enter the item to add:\n";
-            cin >> item;
-            set.add(item);
-            cout << "Item added successfully.\n";
-
-        }
-        else if (choice == 2) {
-            T item;
-            cout << "Enter the item to remove:\n";
-            cin >> item;
-            set.remove(item);
-            cout << "Item removed if it existed in the set.\n";
-
-        }
-        else if (choice == 3) {
-            T item;
-            cout << "Enter the item to check:\n";
-            cin >> item;
-            if (set.contains(item)) {
-                cout << "Item exists in the set.\n";
-            }
-            else {
-                cout << "Item does not exist in the set.\n";
-            }
-
-        }
-        else if (choice == 4) {
-            T* items = set.toArray();
-            if (items != nullptr) {
-                cout << "Items in the set:\n";
-                for (int i = 0; i < set.count(); ++i) {
-                    cout << items[i] << " ";
-                }
-                cout << endl;
-                delete[] items;
-            }
-            else {
-                cout << "The set is currently empty.\n";
-            }
-
-        }
-        else if (choice == 5) {
-            cout << "Number of items in the set: " << set.count() << endl;
-        }
-        else if (choice == 6) {
-            set.sort();
-            cout << "Items in the set after sorting:\n";
-            T* items = set.toArray();
-            if (items!= nullptr) {
-                for (int i = 0; i < set.count(); ++i) {
-                    cout << items[i] << " ";
-                }
-                cout << endl;
-                delete[] items;
-            }
-            else {
-                cout << "The set is currently empty.\n";
-            }
-        }
-        else if (choice == 7) {
-            cout << "Exiting to main menu!\n";
-            break;
-        }
+    bool operator==(const CustomClass& other) const {
+        return Value == other.Value;
     }
-}
+    bool operator!=(const CustomClass& other) const {
+        return Value != other.Value;
+    }
+    bool operator<(const CustomClass& other) const {
+        return Value < other.Value;
+    }
+
+    friend ostream& operator<<(ostream& os, const CustomClass& obj) {
+        os << obj.Value;
+        return os;
+    }
+};
 
 int main() {
-    while (true) {
-        cout << "\n--- Select Data Type ---\n";
-        cout << "1. Integer\n";
-        cout << "2. Float\n";
-        cout << "3. String\n";
-        cout << "4. Exit\n";
-        cout << "Choose a data type:\n";
-        int dataTypeChoice;
-        cin >> dataTypeChoice;
+    // Test Set<string>
+    cout << "Test Set<string>" << endl;
+    Set<string> stringSet;
 
-        if (cin.fail()) {
-            cout << "Invalid input! Please enter a number between 1 and 4.\n";
-            cin.clear();
-            while (cin.get() != '\n');
-            continue;
-        }
+    stringSet.add("cherry");
+    stringSet.add("apple");
+    stringSet.add("banana");
+    stringSet.add("apple");
 
-        if (dataTypeChoice == 1) {
-            cout << "You selected Integer Set.\n";
-            handleSet<int>();
-        }
-        else if (dataTypeChoice == 2) {
-            cout << "You selected Float Set.\n";
-            handleSet<float>();
-        }
-        else if (dataTypeChoice == 3) {
-            cout << "You selected String Set.\n";
-            handleSet<string>();
-        }
-        else if (dataTypeChoice == 4) {
-            cout << "Exiting the program!\n";
-            break;
-        }
+    cout << "Count: " << stringSet.count() << endl;
+    cout << "Contains 'apple': " << (stringSet.contains("apple") ? "Yes" : "No") << endl;
+
+    stringSet.remove("banana");
+
+    cout << "Count after removing 'banana': " << stringSet.count() << endl;
+
+    string* stringArray = stringSet.toArray();
+    for (int i = 0; i < stringSet.count(); i++) {
+        cout << stringArray[i] << " ";
     }
+    cout << endl;
+
+    delete[] stringArray;
+
+    // Test Set<int>
+    cout << "Test Set<int>" << endl;
+    Set<int> intSet;
+    intSet.add(5);
+    intSet.add(3);
+    intSet.add(8);
+    intSet.add(3);
+    intSet.add(1);
+    intSet.add(6);
+
+    cout << "Count: " << intSet.count() << endl;
+    cout << "Contains 3: " << (intSet.contains(3) ? "Yes" : "No") << endl;
+
+    intSet.remove(3);
+
+    cout << "Count after removing 3: " << intSet.count() << endl;
+
+    int* intArray = intSet.toArray();
+    for (int i = 0; i < intSet.count(); i++) {
+        cout << intArray[i] << " ";
+    }
+    cout << endl;
+
+    delete[] intArray;
+
+    // Test Set<CustomClass>
+    cout << "Test Set<CustomClass>" << endl;
+    Set<CustomClass> customSet;
+    customSet.add(CustomClass(5));
+    customSet.add(CustomClass(3));
+    customSet.add(CustomClass(8));
+    customSet.add(CustomClass(3));
+    customSet.add(CustomClass(1));
+    customSet.add(CustomClass(6));
+
+    cout << "Count: " << customSet.count() << endl;
+
+    CustomClass* customArray = customSet.toArray();
+    for (int i = 0; i < customSet.count(); i++) {
+        cout << customArray[i] << " ";
+    }
+    cout << endl;
+
+    delete[] customArray;
 }
