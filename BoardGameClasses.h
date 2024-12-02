@@ -1,7 +1,8 @@
-#ifndef BOARDGAMECLASSES_H
-#define BOARDGAMECLASSES_H
+#ifndef BOARDGAME_CLASSES_H
+#define BOARDGAME_CLASSES_H
 
 #include <iostream>
+#include <string>
 #include <vector>
 
 using namespace std;
@@ -131,4 +132,4 @@ void Player<T>::setBoard(Board<T>* b) {
     this->boardPtr = b;
 }
 
-#endif //BOARDGAMECLASSES_H
+#endif //BOARDGAME_CLASSES_H
