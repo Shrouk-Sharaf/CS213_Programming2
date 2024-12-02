@@ -1,18 +1,16 @@
 #ifndef WORDTICTACTOE_H
 #define WORDTICTACTOE_H
 
-#include <iostream>
-#include <vector>
 #include <cstdlib>
 #include <ctime>
 #include <cctype>
 #include <unordered_set>
 #include <fstream>
-#include "BoardGameClasses.h"
+#include "MINMAXPLAYER.h"
+#include "BoardGame_Classes.h"
 
 using namespace std;
 
-// A class to represent the board for Word Tic-tac-toe
 class WordBoard : public Board<char> {
 private:
     unordered_set<string> dictionary; // Set to store valid words
@@ -34,7 +32,6 @@ public:
     bool is_valid_word(const string& word); // Check if a word is valid
 };
 
-// A class to represent a player in Word Tic-tac-toe
 class WordPlayer : public Player<char> {
 public:
     WordPlayer(string name, char symbol);
@@ -43,7 +40,6 @@ public:
     void getmove(int& x, int& y) override; // Prompt the player for a move
 };
 
-// A class to represent a random player (AI) in Word Tic-tac-toe
 class WordRandomPlayer : public RandomPlayer<char> {
 public:
     WordRandomPlayer(char symbol);
@@ -51,7 +47,6 @@ public:
     void getmove(int& x, int& y) override; // Generate a random move
 };
 
-// Implementation of the WordBoard class
 WordBoard::WordBoard(int rows, int columns) : Board() {
     this->rows = rows;
     this->columns = columns;
@@ -94,33 +89,26 @@ void WordBoard::display_board() {
 bool WordBoard::is_win() {
     vector<string> words_to_check;
 
-    // Check rows and columns
     for (int i = 0; i < rows; ++i) {
         string row, col;
         for (int j = 0; j < columns; ++j) {
-            row += board[i][j];
-            col += board[j][i];
+            // horizontal word
+            row += toupper(board[i][j]);
+            // vertical word
+            col += toupper(board[j][i]);
         }
         words_to_check.push_back(row);
         words_to_check.push_back(col);
     }
 
-    // Check diagonals
-    string diag1, diag2, diag3, diag4;
+    string diag1, diag2;
     for (int i = 0; i < rows; ++i) {
-        diag1 += board[i][i];
-        diag2 += board[i][rows - i - 1];
-        diag3 += board[rows - i - 1][i];
-    }
-    for(int i = rows - 1; i <= 0; --i){
-        diag4 += board[i][i];
+        diag1 += toupper(board[i][i]);
+        diag2 += toupper(board[i][rows - i - 1]);
     }
     words_to_check.push_back(diag1);
     words_to_check.push_back(diag2);
-    words_to_check.push_back(diag3);
-    words_to_check.push_back(diag4);
 
-    // Validate all possible words
     for (const string& word : words_to_check) {
         if (is_valid_word(word)) {
             return true;
@@ -141,27 +129,33 @@ bool WordBoard::is_valid_word(const string& word) {
     return dictionary.find(word) != dictionary.end();
 }
 
-// Implementation of the WordPlayer class
-WordPlayer::WordPlayer(string name, char symbol) : Player(name, symbol) {}
+WordPlayer::WordPlayer(string name, char symbol) : Player(name, symbol) {
+}
 
-WordPlayer::WordPlayer(char symbol) : Player(symbol) {}
+WordPlayer::WordPlayer(char symbol) : Player(symbol) {
+}
 
 void WordPlayer::getmove(int& x, int& y) {
     do {
-    cout << "Enter row :\n";
-    cin >> x;
-    cout << "Enter column :\n";
-    cin >> y;
+        cout << this->getname() << ", enter the letter you want to place:\n";
+        cin >> symbol;
+        symbol = toupper(symbol);
+        cout << "Enter row :\n";
+        cin >> x;
+        cout << "Enter column :\n";
+        cin >> y;
     } while (!(x >= 0 && x < 3 && y >= 0 && y < 3));
 }
 
-// Implementation of the WordRandomPlayer class
 WordRandomPlayer::WordRandomPlayer(char symbol) : RandomPlayer(symbol) {}
 
 void WordRandomPlayer::getmove(int& x, int& y) {
+    char randomLetter = 'A' + rand() % 26;
+    symbol = randomLetter;
+    cout << "Random player symbol: " << symbol << endl;
     x = rand() % 3;
     y = rand() % 3;
-    cout << "AI player chooses: " << x << ", " << y << endl;
+    cout << "computer player chooses: " << x << ", " << y << endl;
 }
 
 #endif // WORDTICTACTOE_H

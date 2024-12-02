@@ -23,13 +23,13 @@ int main() {
         cout << "Player 2, enter your name:\n";
         cin >> name2;
 
-        WordPlayer* player2 = new WordPlayer(name2, ' '); // Player 2 (human) uses 'O'
+        WordPlayer* player2 = new WordPlayer(name2, ' ');
         players[0] = &player1;
         players[1] = player2;
-    } else {
+    }
+    else {
         name2 = "Computer";
-
-        WordRandomPlayer* computerPlayer = new WordRandomPlayer(' '); // Computer uses 'O'
+        WordRandomPlayer* computerPlayer = new WordRandomPlayer(' ');
         players[0] = &player1;
         players[1] = computerPlayer;
     }
@@ -41,48 +41,5 @@ int main() {
 
     GameManager<char> gameManager(&board, players);
 
-    board.display_board();
-
-    while (!board.game_is_over()) {
-        for (int i : {0, 1}) {
-            char symbol;
-
-            if (mode == '2' && i == 1) {
-                char randomLetter = 'A' + rand() % 26;  // 'A' to 'Z'
-
-                symbol = randomLetter;
-                cout << "Random player symbol: " << symbol << endl;
-            } else {
-                cout << players[i]->getname() << ", enter the letter you want to place:\n";
-                cin >> symbol;
-
-                symbol = toupper(symbol);
-
-                while (!isalpha(symbol)) {
-                    cout << "Invalid input. Please enter a valid letter (A-Z):\n";
-                    cin >> symbol;
-                    symbol = toupper(symbol);
-                }
-            }
-
-            int x, y;
-            players[i]->getmove(x, y);
-
-            while (!board.update_board(x, y, symbol)) {
-                cout << "Invalid move. Try again.\n";
-                players[i]->getmove(x, y); // Retry position input
-            }
-
-            board.display_board();
-
-            if (board.is_win()) {
-                cout << players[i]->getname() << " wins by forming a word!\n";
-                return 0;
-            }
-            if (board.is_draw()) {
-                cout << "The game ends in a draw!\n";
-                return 0;
-            }
-        }
-    }
+    gameManager.run();
 }
